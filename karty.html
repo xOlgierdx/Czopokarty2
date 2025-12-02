@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Otwieranie Skrzynek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    button {
+      margin: 8px;
+      padding: 10px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+    }
+    #recent-drops {
+      margin-top: 18px;
+      background: rgba(255,255,255,0.06);
+      padding: 12px;
+      border-radius: 8px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      color: #fff;
+    }
+    .drop-entry {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    .drop-entry img {
+      width: 80px;
+      height: 100px;
+      margin-right: 15px;
+    }
+
+#currencies { margin-top:12px; display:flex; gap:18px; justify-content:center; align-items:center; }
+    .currency { font-weight:bold; }
+
+    #gold-info, #gems-info {
+      font-size: 18px;
+      margin-top: 2px;
+      font-weight: bold;
+      color: rgb(241, 238, 238);
+    }
+    
+    #cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+      color: white;
+    }
+    .card-entry {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 130px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      color: black;
+    }
+    .card-entry img {
+      width: 100px;
+      height: 120px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+    .max-level {
+      background: linear-gradient(135deg, gold, orange);
+      color: black;
+    }
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: white;
+}
+.card {
+  color: black; /* przywraca czcionkę kart */
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#upgrade-modal-bg {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal okno */
+#upgrade-modal {
+  background: #1e1e2f;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  max-width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+#upgrade-modal img {
+  width: 100px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+#upgrade-modal h3 {
+  margin: 10px 0;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-upgrade {
+  background: linear-gradient(90deg, gold, orange);
+  color: black;
+}
+
+.btn-cancel {
+  background: #555;
+  color: white;
+}
+
+.diamond-level {
+  background: linear-gradient(135deg, #00c6ff, #0072ff, #b3ffff);
+  background-size: 400% 400%;
+  animation: diamondGlow 3s ease infinite;
+  color: rgb(0, 0, 0);
+  border: 2px solid #66ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+@keyframes diamondGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.level-two {
+  background: linear-gradient(135deg, #d3d3d3, #a9a9a9);
+  color: black;
+  border: 2px solid #888;
+}
+
+#upgrade-modal-bg, #wild-modal-bg { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    #upgrade-modal, #wild-modal { background: #1e1e2f; padding: 20px; border-radius: 10px; text-align: center; max-width: 380px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+    #upgrade-modal img, #wild-modal img { width: 90px; border-radius: 8px; margin-bottom: 10px; }
+     .wild-usage { display:flex; align-items:center; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;}
+      .counter { display:flex; align-items:center; gap:8px; }
+    .counter button { width:36px; height:36px; font-size:18px; padding:0; border-radius:6px; }
+    input[type="number"] { width:70px; border-radius:6px; padding:6px; text-align:center; border:none; }
+    small { display:block; margin-top:6px; }
+
+.upgrade-arrow {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  background: url('grafiki/strzalka.png') no-repeat center/contain;
+  animation: pulseArrow 0.9s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseArrow {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+  </style>
+</head>
+<body>
+  <h1>✨ Otwieranie Skrzynek ✨</h1>
+  <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
+
+  <button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
+  <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (250 złota)</button>
+  <button onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (50 💎)</button>
+  <button onclick="spinWheel()">🎡 Koło Fortuny</button>
+
+  <div id="recent-drops"></div>
+
+  <div id="currencies">
+    <div id="gold-info" class="currency">💰 Złoto: 0</div>
+    <div id="gems-info" class="currency">💎 Gemy: 0</div>
+    <div id="odlamki-info" class="currency">🌌 Odłamki: 0</div>
+    <div id="wild1-info" class="currency" style="margin-top: 5px;"> Wild Card: 0</div>
+    <div id="wild2-info" class="currency" style="margin-top: 5px;"> Wild Card: 0</div>
+    <div id="wild3-info" class="currency" style="margin-top: 5px;"> Wild Card: 0</div>
+    <div id="wild4-info" class="currency" style="margin-top: 5px;"> Wild Card: 0</div>
+  </div>
+
+  <div id="cards"></div>
+
+  <!-- Upgrade modal -->
+  <div id="upgrade-modal-bg">
+    <div id="upgrade-modal">
+      <img id="upgrade-img" src="" alt="">
+      <h3 id="upgrade-title"></h3>
+      <p id="upgrade-info" style="white-space:pre-line;"></p>
+      <div class="modal-buttons" id="upgrade-modal-buttons">
+        <button class="modal-btn btn-upgrade" onclick="confirmUpgrade()">Ulepsz</button>
+        <button class="modal-btn btn-cancel" onclick="closeUpgradeModal()">Anuluj</button>
+      </div>
+      <small id="upgrade-note"></small>
+    </div>
+  </div>
+
+  <!-- Wild usage modal -->
+  <div id="wild-modal-bg">
+    <div id="wild-modal">
+      <h3 id="wild-modal-title">Użyj Wild Cards</h3>
+      <p id="wild-modal-sub" style="margin-bottom:6px;"></p>
+      <div class="wild-usage">
+        <div>Posiadasz: <strong id="wild-owned">0</strong></div>
+        <div class="counter">
+          <button onclick="wildDecrement()">−</button>
+          <input id="wild-count-input" type="number" min="1" value="1" />
+          <button onclick="wildIncrement()">+</button>
+        </div>
+        <div>Dodasz: <strong id="wild-will-add">1</strong> kart</div>
+      </div>
+      <div class="modal-buttons" style="margin-top:12px;">
+        <button class="modal-btn btn-upgrade" onclick="confirmUseWild()">Potwierdź</button>
+        <button class="modal-btn btn-cancel" onclick="closeWildModal()">Anuluj</button>
+      </div>
+      <small style="display:block;margin-top:8px;color:#ccc;">Po użyciu Wild Cards zwiększy się liczba posiadanych kart. Ulepszenie trzeba wykonać osobno jeśli osiągniesz wymaganą ilość.</small>
+    </div>
+  </div>
+
+  <!-- Wheel modal -->
+<div id="wheel-modal-bg" style="
+  display:none; position:fixed; left:0; top:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;
+">
+  <div style="
+    background:#1e1e2f; padding:20px; border-radius:10px; text-align:center;
+    color:white; max-width:400px; box-shadow:0 0 15px rgba(0,0,0,0.6);
+  ">
+    <h2>🎡 Koło Fortuny</h2>
+    <p id="wheel-result-text" style="font-size:20px; margin:15px 0;"></p>
+    <button onclick="closeWheel()" style="
+      padding:8px 16px; background:#444; color:white; border:none; border-radius:8px; cursor:pointer;
+    ">OK</button>
+  </div>
+</div>
+
+  <script>
+    const rarityConfig = {
+      "pospolita": { chance: 0.4, amount: [1, 20], upgradeCost: { 1: { cards: 100, gold: 200 }, 2: { cards: 200, gold: 400 }, 3: { cards: 500, gems: 25, gold: 750 } } },
+      "rzadka":    { chance: 0.3, amount: [1, 10], upgradeCost: { 1: { cards: 50, gold: 200 }, 2: { cards: 100, gold: 400 }, 3: { cards: 250, gems: 25, gold: 750 } } },
+      "epicka":    { chance: 0.2, amount: [1, 5],  upgradeCost: { 1: { cards: 20,  gold: 200 }, 2: { cards: 40,  gold: 400 }, 3: { cards: 60, gems: 25, gold: 750 } } },
+      "legendarna":{ chance: 0.1, amount: [1, 1], upgradeCost: { 1: { cards: 5,   gold: 200 }, 2: { cards: 10,   gold: 400 }, 3: { cards: 20, gems: 25, gold: 750 } } },
+      "czempion":  { chance: 0.0, amount: [1,1], upgradeCost: { 1:{odlamki:3}, 2:{odlamki:5}, 3:{odlamki:7} } }
+    };
+
+    const cardPool = {
+      pospolita: [
+        { name: "Czarny Wdowiec", image: "grafiki/Dwdo.jpg" },
+        { name: "Uma", image: "grafiki/Puma.jpg" },
+        { name: "Pobin", image: "grafiki/Ppob.jpg" },
+        { name: "Plebs", image: "grafiki/Pple.jpg" },
+        { name: "Głupia głowa", image: "grafiki/Pmim.jpg" },
+        { name: "Marcin Stark", image: "grafiki/Msta.jpg" },
+        { name: "Czoker", image: "grafiki/Mjok.jpg" },
+        { name: "Luna Plus Size", image: "grafiki/Mlun.jpg" },
+        { name: "Iron Gej", image: "grafiki/Piro.jpg" },
+        { name: "Czołgista", image: "grafiki/Mczo.jpg" },
+        { name: "Czop Kennedy", image: "grafiki/Mleo.jpg" },
+        { name: "Babka z wnusiem", image: "grafiki/Prod.jpg" },
+        { name: "Czop von Doom", image: "grafiki/Mdoo.jpg" },
+        { name: "Deddie", image: "grafiki/Dedd.jpg" },
+        { name: "Maria Nowak", image: "grafiki/Dmar.jpg" }
+      ],
+      rzadka: [
+        { name: "Śmiertkeus", image: "grafiki/Datr.jpg" },
+        { name: "Ruda baba", image: "grafiki/Dalo.jpg" },
+        { name: "Oldur", image: "grafiki/Obal.jpg" },
+        { name: "Punishczop", image: "grafiki/Mpun.jpg" },
+        { name: "Kodyn", image: "grafiki/Kody.jpg" },
+        { name: "Dziadoki", image: "grafiki/Dlok.jpg" },
+        { name: "Biały Blade", image: "grafiki/Kble.jpg" },
+        { name: "Idolka", image: "grafiki/Oido.jpg" },
+        { name: "Mały Dziadek", image: "grafiki/Dhol.jpg" },
+        { name: "Olfield", image: "grafiki/Ored.jpg" },
+        { name: "Wilcza Paszcza", image: "grafiki/Oeiv.jpg" },
+        { name: "Kapitan Kenway", image: "grafiki/Kedw.jpg" },
+        { name: "James Nowak", image: "grafiki/Mjam.jpg" }
+      ],
+      epicka: [
+        { name: "Szkarłatna wiedźma", image: "grafiki/Osca.jpg" },
+        { name: "Liga Tropicieli", image: "grafiki/Liga.jpg" },
+        { name: "Dziwak", image: "grafiki/Kstr.jpg" },
+        { name: "Smeskel i Kambert", image: "grafiki/DKel.jpg" },
+        { name: "Pedro Molesto", image: "grafiki/Ofan.jpg" },
+        { name: "Mamuśka", image: "grafiki/Dema.jpg" },
+        { name: "Kapitan Aborcja", image: "grafiki/Kkap.jpg" },
+        { name: "Marcin Kestis", image: "grafiki/Mcal.jpg" },
+        { name: "Kacperberg", image: "grafiki/Khei.jpg" },
+        { name: "Spartanka", image: "grafiki/Dspa.jpg" },
+        { name: "Wybrańcy Kkonshu", image: "grafiki/OKwyb.jpg" }
+      ],
+      legendarna: [
+        { name: "Lady Dziadek", image: "grafiki/Dlad.jpg" },
+        { name: "Olgierd", image: "grafiki/Oolg.jpg" },
+        { name: "Czysty Chaos", image: "grafiki/OKczy.jpg" },
+        { name: "Kong-wu", image: "grafiki/Kwuk.jpg" },
+        { name: "Dziadek Wong", image: "grafiki/Dada.jpg" },
+        { name: "Czop Auditore da Wiejska", image: "grafiki/Mezi.jpg" }
+      ],
+      czempion: [
+        { name: "God of Hunger", image: "grafiki/Mkra.jpg" },
+        { name: "Czop z Wiejskiej", image: "grafiki/Mger.jpg" },
+        { name: "Fatbat", image: "grafiki/Mfat.jpg" }
+      ]
+    };
+
+    // load or create player data, ensure wild fields exist
+    let player = JSON.parse(localStorage.getItem("playerData")) || {
+      gold: 0,
+      gems: 0,
+      odlamki: 0,
+      wild1: 0,
+      wild2: 0,
+      wild3: 0,
+      wild4: 0,
+      cards: {},
+      dailyOpens: 0,
+      lastWheelSpin: "",
+      lastOpenDate: ""
+      
+    };
+
+    // ensure older saves get fields
+    player.wild1 = player.wild1 || 0;
+    player.wild2 = player.wild2 || 0;
+    player.wild3 = player.wild3 || 0;
+    player.wild4 = player.wild4 || 0;
+
+    function savePlayer() {
+      localStorage.setItem("playerData", JSON.stringify(player));
+    }
+
+    function losujRzadkosc() {
+      const roll = Math.random();
+      let cumulative = 0;
+      for (const rarity in rarityConfig) {
+        cumulative += rarityConfig[rarity].chance;
+        if (roll < cumulative) return rarity;
+      }
+      return "pospolita";
+    }
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function resetDailyOpensIfNewDay() {
+      const today = new Date().toDateString();
+      if (player.lastOpenDate !== today) {
+        player.dailyOpens = 0;
+        player.lastOpenDate = today;
+        savePlayer();
+      }
+    }
+
+    function otworzSkrzynke() {
+      resetDailyOpensIfNewDay();
+      if (player.dailyOpens >= 60000) {
+        alert("Osiągnąłeś dzienny limit 5 skrzyń!");
+        return;
+      }
+      const recentDiv = document.getElementById("recent-drops");
+      recentDiv.innerHTML = `<h3>🎁 Wypadło z ostatniej skrzynki:</h3>`;
+
+      const gold = getRandomInt(1,100);
+      player.gold += gold;
+      recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
+
+      if (Math.random() < 0.96) {
+        const gems = getRandomInt(1,5);
+        player.gems += gems;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
+      } else {
+        player.odlamki += 1;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>🌌 1 odłamek</strong></div>`;
+      }
+
+      const championChance = 0.02;
+      if (Math.random() < championChance) {
+        const availableChampions = cardPool.czempion.filter(c => !player.cards[c.name]);
+        if (availableChampions.length > 0) {
+          const chosen = availableChampions[getRandomInt(0, availableChampions.length - 1)];
+          player.cards[chosen.name] = { count: 1, level: 1, rarity: "czempion", image: chosen.image };
+          recentDiv.innerHTML += `
+            <div class="drop-entry">
+              <img src="${chosen.image}" alt="${chosen.name}" />
+              <div>🌌 ${chosen.name} (CZEMPION, +1)</div>
+            </div>
+          `;
+        }
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const rarity = losujRzadkosc();
+        let availableCards = cardPool[rarity].filter(card => {
+          let data = player.cards[card.name];
+          return !data || data.level < 4;
+        });
+        if (availableCards.length === 0) continue;
+
+        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
+        const [min, max] = rarityConfig[rarity].amount;
+        const amount = getRandomInt(min, max);
+
+        if (!player.cards[chosen.name]) {
+          player.cards[chosen.name] = { count: 0, level: 1, rarity: rarity, image: chosen.image };
+        }
+
+        player.cards[chosen.name].count += amount;
+
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosen.image}" alt="${chosen.name}" />
+            <div>${chosen.name} (${rarity}, +${amount})</div>
+          </div>
+        `;
+      }
+
+      player.dailyOpens++;
+      savePlayer();
+      pokazKarty();
+    }
+
+    // LEGENDARNA SKRZYNIA z dropem WILD CARDS (wybiera tylko JEDEN rodzaj na otwarcie)
+    function otworzLegendarnaSkrzynia() {
+      if (player.gems < 50) {
+        alert("Za mało gemów!");
+        return;
+      }
+      const recentDiv = document.getElementById("recent-drops");
+      recentDiv.innerHTML = `<h3>🎁 Wypadło z legendarnej skrzyni:</h3>`;
+
+      player.gems -= 50;
+
+      const gold = getRandomInt(100, 250);
+      player.gold += gold;
+      recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
+
+      let availableLegends = cardPool["legendarna"].filter(card => {
+        let data = player.cards[card.name];
+        return !data || data.level < 4;
+      });
+      if (availableLegends.length === 0) {
+        alert("Masz już wszystkie legendarne karty na max poziomie!");
+        savePlayer();
+        pokazKarty();
+        return;
+      }
+
+      const chosen = availableLegends[getRandomInt(0, availableLegends.length - 1)];
+      if (!player.cards[chosen.name]) {
+        player.cards[chosen.name] = { count: 0, level: 1, rarity: "legendarna", image: chosen.image };
+      }
+      player.cards[chosen.name].count += 1;
+
+      recentDiv.innerHTML += `
+        <div class="drop-entry">
+          <img src="${chosen.image}" alt="${chosen.name}" />
+          <div>${chosen.name} (legendarna, +1)</div>
+        </div>
+      `;
+
+      // --- WILD CARDS DROP (jeden rodzaj) ---
+      // Wagi zgodne z Twoim opisem: WC1:50, WC2:50, WC3:25, WC4:25
+      const wildOptions = [
+        { type: 1, weight: 50, qty: 20, text: " Wild Card  (+20)" },
+        { type: 2, weight: 50, qty: 10, text: " Wild Card  (+10)" },
+        { type: 3, weight: 25, qty: 5,  text: " Wild Card  (+5)" },
+        { type: 4, weight: 25, qty: 1,  text: " Wild Card  (+1)" }
+      ];
+      const totalWeight = wildOptions.reduce((s,o)=>s+o.weight,0);
+      let r = Math.random() * totalWeight;
+      let chosenWild = null;
+      for (const opt of wildOptions) {
+        r -= opt.weight;
+        if (r <= 0) { chosenWild = opt; break; }
+      }
+      if (!chosenWild) chosenWild = wildOptions[0];
+
+      if (chosenWild.type === 1) player.wild1 += chosenWild.qty;
+      if (chosenWild.type === 2) player.wild2 += chosenWild.qty;
+      if (chosenWild.type === 3) player.wild3 += chosenWild.qty;
+      if (chosenWild.type === 4) player.wild4 += chosenWild.qty;
+
+      const wildIcons = {
+  1: `<img src="grafiki/wild1.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+  2: `<img src="grafiki/wild2.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+  3: `<img src="grafiki/wild3.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+  4: `<img src="grafiki/wild4.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`
+};
+
+      recentDiv.innerHTML += `
+  <div class="drop-entry">
+    ${wildIcons[chosenWild.type]} 
+    <strong>${chosenWild.text}</strong>
+  </div>`;
+
+      savePlayer();
+      pokazKarty();
+    }
+
+    function otworzZlotaSkrzynie() {
+      if (player.gold < 250) {
+        alert("Nie masz wystarczająco złota!");
+        return;
+      }
+      player.gold -= 250;
+
+      const recentDiv = document.getElementById("recent-drops");
+      recentDiv.innerHTML = `<h3>🎁 Wypadło z złotej skrzyni:</h3>`;
+
+      if (Math.random() < 0.92) {
+        const gems = getRandomInt(5,10);
+        player.gems += gems;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
+      } else {
+        player.odlamki += 1;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>🌌 1 odłamek</strong></div>`;
+      }
+
+      for (let i = 0; i < 2; i++) {
+        let availableCards = cardPool["rzadka"].filter(card => {
+          let data = player.cards[card.name];
+          return !data || data.level < 4;
+        });
+        if (availableCards.length === 0) continue;
+
+        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
+        const [min, max] = rarityConfig["rzadka"].amount;
+        const amount = getRandomInt(min, max);
+
+        if (!player.cards[chosen.name]) {
+          player.cards[chosen.name] = { count: 0, level: 1, rarity: "rzadka", image: chosen.image };
+        }
+        player.cards[chosen.name].count += amount;
+
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosen.image}" alt="${chosen.name}" />
+            <div>${chosen.name} (rzadka, +${amount})</div>
+          </div>
+        `;
+      }
+
+      for (let i = 0; i < 2; i++) {
+        let availableCards = cardPool["epicka"].filter(card => {
+          let data = player.cards[card.name];
+          return !data || data.level < 4;
+        });
+        if (availableCards.length === 0) continue;
+
+        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
+        const [min, max] = rarityConfig["epicka"].amount;
+        const amount = getRandomInt(min, max);
+
+        if (!player.cards[chosen.name]) {
+          player.cards[chosen.name] = { count: 0, level: 1, rarity: "epicka", image: chosen.image };
+        }
+        player.cards[chosen.name].count += amount;
+
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosen.image}" alt="${chosen.name}" />
+            <div>${chosen.name} (epicka, +${amount})</div>
+          </div>
+        `;
+      }
+      savePlayer();
+      pokazKarty();
+    }
+
+    function pokazKarty() {
+      document.getElementById("gold-info").innerHTML = `💰 Złoto: ${player.gold}`;
+      document.getElementById("gems-info").innerHTML = `💎 Gemy: ${player.gems}`;
+      document.getElementById("odlamki-info").innerText = `🌌 Odłamki: ${player.odlamki}`;
+      document.getElementById("wild1-info").innerHTML = `<img src="grafiki/wild1.png" style="width:20px;vertical-align:middle;margin-right:5px;"> Wild Card: ${player.wild1}`;
+      document.getElementById("wild2-info").innerHTML = `<img src="grafiki/wild2.png" style="width:20px;vertical-align:middle;margin-right:5px;"> Wild Card: ${player.wild2}`;
+      document.getElementById("wild3-info").innerHTML = `<img src="grafiki/wild3.png" style="width:20px;vertical-align:middle;margin-right:5px;"> Wild Card: ${player.wild3}`;
+      document.getElementById("wild4-info").innerHTML = `<img src="grafiki/wild4.png" style="width:20px;vertical-align:middle;margin-right:5px;"> Wild Card: ${player.wild4}`;
+
+      const container = document.getElementById("cards");
+      container.innerHTML = ``;
+
+      const rarityOrder = ["czempion","legendarna", "epicka", "rzadka", "pospolita"];
+      const rarityNames = {
+        czempion: "👑 Czempioni",
+        legendarna: "🌟 Legendarne",
+        epicka: "💎 Epickie",
+        rzadka: "🔷 Rzadkie",
+        pospolita: "⚪ Pospolite"
+      };
+
+      rarityOrder.forEach(rarity => {
+        const totalCards = cardPool[rarity].length;
+
+        // Liczymy ile kart gracz posiada (count > 0) w danej rzadkości
+        const ownedCardsCount = cardPool[rarity].filter(card => {
+          return player.cards[card.name] && player.cards[card.name].count > 0;
+        }).length;
+
+        // Nagłówek z licznikiem
+        container.innerHTML += `<h2 style="width:100%;text-align:left;margin-top:20px;">
+          ${rarityNames[rarity]} ${ownedCardsCount}/${totalCards}
+        </h2>`;
+
+        // Filtrujemy i pokazujemy tylko posiadane karty danej rzadkości
+        const rowCards = Object.entries(player.cards)
+          .filter(([name, c]) => c.rarity === rarity && c.count > 0);
+
+        if (rowCards.length > 0) {
+          const rowDiv = document.createElement("div");
+          rowDiv.style.display = "flex";
+          rowDiv.style.flexWrap = "wrap";
+          rowDiv.style.gap = "15px";
+          rowDiv.style.marginBottom = "20px";
+
+          rowCards.forEach(([name, c]) => {
+  let cardClass = "card-entry";
+  if (c.level === 2) cardClass += " level-two";
+  if (c.level >= 3) cardClass += " max-level";
+  if (c.level === 4) cardClass += " diamond-level";
+
+  // pobieramy koszt kart do ulepszenia (jeśli istnieje)
+  const costData = rarityConfig[c.rarity] && rarityConfig[c.rarity].upgradeCost
+                     ? rarityConfig[c.rarity].upgradeCost[c.level]
+                     : null;
+  // jeśli nie ma koszt.cards (np. czempion ma odłamki) ustawiamy needed = Infinity -> nie wyświetlamy strzałki
+  const needed = costData && costData.cards ? costData.cards : Infinity;
+
+  let canUpgrade = false;
+
+  // jeśli needed jest finite -> można sprawdzić zwykły przypadek
+  if (isFinite(needed)) {
+    // 1) masz wystarczającą liczbę kart
+    if (c.count >= needed) {
+      canUpgrade = true;
+    } 
+  }
+
+  const arrowHTML = canUpgrade ? `<div class="upgrade-arrow"></div>` : "";
+
+  rowDiv.innerHTML += `
+    <div class="${cardClass}" style="position:relative;" onclick="pokazOknoUlepszenia('${name}')">
+      ${arrowHTML}
+      <img src="${c.image}" alt="${name}" />
+      <div>${name}</div>
+      <small>Lvl ${c.level}${c.level === 3 ? " (MAX)" : c.level === 4 ? " (DIAMENT)" : ""} • ${c.count} szt.</small>
+      <small>${c.rarity}</small>
+    </div>
+  `;
+});
+
+          container.appendChild(rowDiv);
+        }
+      });
+    }
+
+    // upgrade modal logic
+    let upgradeTarget = null;
+
+    function pokazOknoUlepszenia(nazwa) {
+      const karta = player.cards[nazwa];
+      if (!karta) return;
+      if (karta.level >= 4) { alert(`${nazwa} jest już na maksymalnym poziomie!`); return; }
+
+      upgradeTarget = nazwa;
+      const koszt = rarityConfig[karta.rarity].upgradeCost[karta.level];
+
+      if (karta.rarity === "czempion") {
+        const wymaganeOdlamki = koszt.odlamki;
+        document.getElementById("upgrade-info").innerText = `Potrzebujesz ${wymaganeOdlamki} odłamków, aby ulepszyć na poziom ${karta.level + 1}.`;
+        document.querySelector(".btn-upgrade").innerText = `Ulepsz (${wymaganeOdlamki} odłamków)`;
+      } else {
+        const wymaganeKarty = koszt.cards || 0;
+        const kosztZlota = koszt.gold || 0;
+        const kosztGemow = koszt.gems || 0;
+        let parts = [];
+        if (kosztZlota) parts.push(`${kosztZlota} złota`);
+        if (kosztGemow) parts.push(`${kosztGemow} gemów`);
+        const kosztTekst = parts.join(" + ") || "brak";
+        document.getElementById("upgrade-info").innerText = `Masz ${karta.count} / ${wymaganeKarty} kart.\nPotrzebujesz ${wymaganeKarty} kart i ${kosztTekst}, aby ulepszyć na poziom ${karta.level + 1}.`;
+        document.querySelector(".btn-upgrade").innerText = `Ulepsz (${kosztTekst})`;
+      }
+
+      document.getElementById("upgrade-img").src = karta.image;
+      document.getElementById("upgrade-title").innerText = nazwa;
+
+      // Dodaj przycisk do otwarcia modala Wild Cards (jeśli nie czempion)
+      const containerButtons = document.getElementById("upgrade-modal-buttons");
+      // remove existing wild-use button if present
+      const existing = document.getElementById("use-wild-btn");
+      if (existing) existing.remove();
+
+      if (karta.rarity !== "czempion") {
+        const wildBtn = document.createElement("button");
+        wildBtn.className = "modal-btn";
+        wildBtn.id = "use-wild-btn";
+        wildBtn.style.background = "#2b2b3b";
+        wildBtn.style.color = "white";
+        wildBtn.innerText = "➕ Użyj Wild Cards";
+        wildBtn.onclick = function() {
+          // map rarity to type
+          const map = { pospolita:1, rzadka:2, epicka:3, legendarna:4 };
+          openWildModal(map[karta.rarity], nazwa);
+        };
+        containerButtons.insertBefore(wildBtn, containerButtons.children[1]);
+      }
+
+      document.getElementById("upgrade-note").innerText = "Możesz użyć Wild Cards, by dodać brakujące sztuki kart. Po dodaniu trzeba odrębnie potwierdzić ulepszenie.";
+      document.getElementById("upgrade-modal-bg").style.display = "flex";
+    }
+
+    function closeUpgradeModal() { document.getElementById("upgrade-modal-bg").style.display = "none"; }
+
+    function confirmUpgrade() {
+      const nazwa = upgradeTarget;
+      if (!nazwa) return;
+      const karta = player.cards[nazwa];
+      const koszt = rarityConfig[karta.rarity].upgradeCost[karta.level];
+
+      if (karta.rarity === "czempion") {
+        const wymaganeOdlamki = koszt.odlamki;
+        if (player.odlamki < wymaganeOdlamki) { alert("Masz za mało odłamków!"); return; }
+        player.odlamki -= wymaganeOdlamki;
+        karta.level++;
+        savePlayer(); pokazKarty(); closeUpgradeModal(); return;
+      }
+
+      const potrzebneKarty = koszt.cards || 0;
+      const kosztZlota = koszt.gold || 0;
+      const kosztGemow = koszt.gems || 0;
+
+      if (karta.count < potrzebneKarty || player.gold < kosztZlota || player.gems < kosztGemow) {
+        alert("Za mało kart, złota lub gemów.");
+        return;
+      }
+
+      karta.count -= potrzebneKarty;
+      player.gold -= kosztZlota;
+      player.gems -= kosztGemow;
+      karta.level++;
+
+      savePlayer();
+      pokazKarty();
+      closeUpgradeModal();
+    }
+
+    // ---- WILD modal logic ----
+    let wildModalState = { type: 1, targetName: null, max: 0 };
+
+    function openWildModal(type, targetName) {
+      wildModalState.type = type;
+      wildModalState.targetName = targetName;
+      const mapping = {1:"Wild Card (pospolite)",2:"Wild Card (rzadkie)",3:"Wild Card (epickie)",4:"Wild Card (legendarne)"};
+      document.getElementById("wild-modal-title").innerText = `Użyj ${mapping[type]}`;
+      const owned = (type===1?player.wild1:type===2?player.wild2:type===3?player.wild3:player.wild4);
+      wildModalState.max = owned;
+      document.getElementById("wild-owned").innerText = owned;
+      document.getElementById("wild-count-input").value = owned>0?1:0;
+      document.getElementById("wild-count-input").min = 1;
+      document.getElementById("wild-count-input").max = owned;
+      document.getElementById("wild-will-add").innerText = Math.min(owned,1);
+      document.getElementById("wild-modal-sub").innerText = `Karta: ${targetName}`;
+      document.getElementById("wild-modal-bg").style.display = "flex";
+      // attach input event
+      document.getElementById("wild-count-input").oninput = function(){
+        let v = parseInt(this.value) || 0;
+        if (v < 1) v = 1;
+        if (v > wildModalState.max) v = wildModalState.max;
+        this.value = v;
+        document.getElementById("wild-will-add").innerText = v;
+      };
+    }
+
+    function closeWildModal() {
+      document.getElementById("wild-modal-bg").style.display = "none";
+    }
+
+    function wildIncrement() {
+      const input = document.getElementById("wild-count-input");
+      let v = parseInt(input.value) || 0;
+      if (v < wildModalState.max) v++;
+      input.value = v;
+      document.getElementById("wild-will-add").innerText = v;
+    }
+
+    function wildDecrement() {
+      const input = document.getElementById("wild-count-input");
+      let v = parseInt(input.value) || 0;
+      if (v > 1) v--;
+      input.value = v;
+      document.getElementById("wild-will-add").innerText = v;
+    }
+
+    function confirmUseWild() {
+      const count = parseInt(document.getElementById("wild-count-input").value) || 0;
+      if (!count || count <= 0) { alert("Wybierz liczbę większą niż 0."); return; }
+      const type = wildModalState.type;
+      const name = wildModalState.targetName;
+      if (!name) { alert("Brak celu."); return; }
+      const owned = (type===1?player.wild1:type===2?player.wild2:type===3?player.wild3:player.wild4);
+      if (count > owned) { alert("Nie masz tylu Wild Cards."); return; }
+
+      // Subtract wilds and add cards (1 Wild = +1 karta)
+      if (type===1) player.wild1 -= count;
+      else if (type===2) player.wild2 -= count;
+      else if (type===3) player.wild3 -= count;
+      else if (type===4) player.wild4 -= count;
+
+      if (!player.cards[name]) {
+        // find rarity of the card from pools (fallback)
+        let found = null;
+        for (const r in cardPool) {
+          found = cardPool[r].find(c => c.name === name);
+          if (found) { player.cards[name] = { count: 0, level:1, rarity: r, image: found.image }; break; }
+        }
+        if (!found) {
+          // default safety
+          player.cards[name] = { count: 0, level:1, rarity: "pospolita", image: "" };
+        }
+      }
+
+      player.cards[name].count += count;
+      savePlayer();
+      closeWildModal();
+      // reopen upgrade modal to update info
+      pokazOknoUlepszenia(name);
+      pokazKarty();
+    }
+
+    // =========================
+// 🎡 KOŁO FORTUNY — 1x dziennie
+// =========================
+
+function spinWheel() {
+  const today = new Date().toDateString();
+
+  if (player.lastWheelSpin === today) {
+    alert("Dzisiejszy spin koła został już wykorzystany!");
+    return;
+  }
+
+  // Ustawiamy datę
+  player.lastWheelSpin = today;
+
+  // 10 nagród (każda 10%)
+  const rewards = [
+    { id:1, text:"500 złota 💰", type:"gold", amount:500 },
+    { id:2, text:"10 gemów 💎", type:"gems", amount:10 },
+    { id:3, text:"1 odłamek 🌌", type:"odlamki", amount:1 },
+    { id:4, text:"20 Wild Card", icon: "grafiki/wild1.png", type:"wild1", amount:20 },
+    { id:5, text:"10 Wild Card", icon: "grafiki/wild2.png", type:"wild2", amount:10 },
+    { id:6, text:"5 Wild Card", icon: "grafiki/wild3.png",  type:"wild3", amount:5 },
+    { id:7, text:"1 Wild Card", icon: "grafiki/wild4.png",  type:"wild4", amount:1 },
+    { id:8, text:"NIC", type:"none", amount:0 },
+    { id:9, text:"250 złota 💰", type:"gold", amount:250 },
+    { id:10, text:"5 gemów 💎", type:"gems", amount:5 }
+  ];
+
+  // losujemy 1 z 10
+  const reward = rewards[Math.floor(Math.random() * 10)];
+
+  // dodajemy nagrodę
+  if (reward.type === "gold") player.gold += reward.amount;
+  if (reward.type === "gems") player.gems += reward.amount;
+  if (reward.type === "odlamki") player.odlamki += reward.amount;
+  if (reward.type === "wild1") player.wild1 += reward.amount;
+  if (reward.type === "wild2") player.wild2 += reward.amount;
+  if (reward.type === "wild3") player.wild3 += reward.amount;
+  if (reward.type === "wild4") player.wild4 += reward.amount;
+
+  savePlayer();
+  pokazKarty();
+
+  // pokaż modal z wynikiem
+  document.getElementById("wheel-result-text").innerHTML = `
+  Wylosowałeś:<br>
+  ${reward.icon ? `<img src="${reward.icon}" style="width:32px; vertical-align:middle;">` : ""}
+  <b>${reward.text}</b>
+`;
+  document.getElementById("wheel-modal-bg").style.display = "flex";
+}
+
+function closeWheel() {
+  document.getElementById("wheel-modal-bg").style.display = "none";
+}
+
+    // init
+    pokazKarty();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
