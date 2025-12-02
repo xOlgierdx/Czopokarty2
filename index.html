@@ -407,7 +407,7 @@
 
     function otworzSkrzynke() {
       resetDailyOpensIfNewDay();
-      if (player.dailyOpens >= 60000) {
+      if (player.dailyOpens >= 10) {
         alert("Osiągnąłeś dzienny limit 5 skrzyń!");
         return;
       }
@@ -942,6 +942,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
