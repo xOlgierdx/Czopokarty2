@@ -414,19 +414,19 @@
 
     function otworzSkrzynke() {
       resetDailyOpensIfNewDay();
-      if (player.dailyOpens >= 5) {
+      if (player.dailyOpens >= 6) {
         alert("Osiągnąłeś dzienny limit 5 skrzyń!");
         return;
       }
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z ostatniej skrzynki:</h3>`;
 
-      const gold = getRandomInt(1,100);
+      const gold = getRandomInt(1000,1000);
       player.gold += gold;
       recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
 
       if (Math.random() < 0.96) {
-        const gems = getRandomInt(1,5);
+        const gems = getRandomInt(100,500);
         player.gems += gems;
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
       } else {
@@ -949,6 +949,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
