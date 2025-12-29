@@ -421,12 +421,12 @@
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z ostatniej skrzynki:</h3>`;
 
-      const gold = getRandomInt(100,200);
+      const gold = getRandomInt(1,100);
       player.gold += gold;
       recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
 
       if (Math.random() < 0.96) {
-        const gems = getRandomInt(5,10);
+        const gems = getRandomInt(1,5);
         player.gems += gems;
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
       } else {
@@ -949,6 +949,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
