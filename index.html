@@ -525,10 +525,10 @@
       // --- WILD CARDS DROP (jeden rodzaj) ---
       // Wagi zgodne z Twoim opisem: WC1:50, WC2:50, WC3:25, WC4:25
       const wildOptions = [
-        { type: 1, weight: 50, qty: 40, text: " Wild Card  (+40)" },
-        { type: 2, weight: 50, qty: 20, text: " Wild Card  (+20)" },
-        { type: 3, weight: 25, qty: 10,  text: " Wild Card  (+10)" },
-        { type: 4, weight: 25, qty: 2,  text: " Wild Card  (+2)" }
+        { type: 1, weight: 50, qty: 20, text: " Wild Card  (+20)" },
+        { type: 2, weight: 50, qty: 10, text: " Wild Card  (+10)" },
+        { type: 3, weight: 25, qty: 5,  text: " Wild Card  (+5)" },
+        { type: 4, weight: 25, qty: 1,  text: " Wild Card  (+1)" }
       ];
       const totalWeight = wildOptions.reduce((s,o)=>s+o.weight,0);
       let r = Math.random() * totalWeight;
@@ -952,6 +952,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
