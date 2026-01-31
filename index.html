@@ -215,8 +215,8 @@
   <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
 
   <button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
-  <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (250 złota)</button>
-  <button onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (50 💎)</button>
+  <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (175 złota)</button>
+  <button onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (35 💎)</button>
   <button onclick="spinWheel()">🎡 Koło Fortuny</button>
 
   <div id="recent-drops"></div>
@@ -485,14 +485,14 @@
 
     // LEGENDARNA SKRZYNIA z dropem WILD CARDS (wybiera tylko JEDEN rodzaj na otwarcie)
     function otworzLegendarnaSkrzynia() {
-      if (player.gems < 50) {
+      if (player.gems < 35) {
         alert("Za mało gemów!");
         return;
       }
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z legendarnej skrzyni:</h3>`;
 
-      player.gems -= 50;
+      player.gems -= 35;
 
       const gold = getRandomInt(100, 250);
       player.gold += gold;
@@ -562,11 +562,11 @@
     }
 
     function otworzZlotaSkrzynie() {
-      if (player.gold < 250) {
+      if (player.gold < 175) {
         alert("Nie masz wystarczająco złota!");
         return;
       }
-      player.gold -= 250;
+      player.gold -= 175;
 
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z złotej skrzyni:</h3>`;
@@ -952,6 +952,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
