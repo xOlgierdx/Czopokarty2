@@ -485,14 +485,14 @@
 
     // LEGENDARNA SKRZYNIA z dropem WILD CARDS (wybiera tylko JEDEN rodzaj na otwarcie)
     function otworzLegendarnaSkrzynia() {
-      if (player.gems < 35) {
+      if (player.gems < 50) {
         alert("Za mało gemów!");
         return;
       }
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z legendarnej skrzyni:</h3>`;
 
-      player.gems -= 35;
+      player.gems -= 50;
 
       const gold = getRandomInt(100, 250);
       player.gold += gold;
@@ -562,11 +562,11 @@
     }
 
     function otworzZlotaSkrzynie() {
-      if (player.gold < 175) {
+      if (player.gold < 250) {
         alert("Nie masz wystarczająco złota!");
         return;
       }
-      player.gold -= 175;
+      player.gold -= 250;
 
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z złotej skrzyni:</h3>`;
@@ -952,6 +952,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
