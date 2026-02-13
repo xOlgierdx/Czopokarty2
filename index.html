@@ -214,10 +214,11 @@
   <h1>✨ Otwieranie Skrzynek ✨</h1>
   <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
 
-  <button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
+  <!--<button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
   <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (250 złota)</button>
   <button onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (50 💎)</button>
-  <button onclick="spinWheel()">🎡 Koło Fortuny</button>
+  <button onclick="spinWheel()">🎡 Koło Fortuny</button>-->
+  <button onclick="otworzEventSkrzynie()">🎉 Tłusta skrzynia</button>
 
   <div id="recent-drops"></div>
 
@@ -370,6 +371,26 @@
       ]
     };
 
+    // =========================
+// EVENT CARD POOL
+// Wybierz tutaj karty eventowe
+// =========================
+
+const eventCardPool = [
+  { name: "Marcin Drake", rarity: "legendarna" },
+  { name: "Czop Auditore da Wiejska", rarity: "legendarna" },
+  { name: "Czop Sakai", rarity: "legendarna" },
+  { name: "Marcin Kestis", rarity: "epicka" },
+  { name: "James Nowak", rarity: "rzadka" },
+  { name: "Punishczop", rarity: "rzadka" },
+  { name: "Czop von Doom", rarity: "pospolita" },
+  { name: "Czołgista", rarity: "pospolita" },
+  { name: "Czop Kennedy", rarity: "pospolita" },
+  { name: "Marcin Stark", rarity: "pospolita" },
+  { name: "Czoker", rarity: "pospolita" },
+  { name: "Luna Plus Size", rarity: "pospolita" },
+];
+
     // load or create player data, ensure wild fields exist
     let player = JSON.parse(localStorage.getItem("playerData")) || {
       gold: 0,
@@ -382,7 +403,9 @@
       cards: {},
       dailyOpens: 0,
       lastWheelSpin: "",
-      lastOpenDate: ""
+      lastOpenDate: "",
+      eventOpens: 0,
+      lastEventOpenDate: ""
       
     };
 
@@ -391,6 +414,76 @@
     player.wild2 = player.wild2 || 0;
     player.wild3 = player.wild3 || 0;
     player.wild4 = player.wild4 || 0;
+    player.eventOpens = player.eventOpens || 0;
+    player.lastEventOpenDate = player.lastEventOpenDate || "";
+
+    function resetEventOpensIfNewDay() {
+  const today = new Date().toDateString();
+  if (player.lastEventOpenDate !== today) {
+    player.eventOpens = 0;
+    player.lastEventOpenDate = today;
+    savePlayer();
+  }
+}
+
+function otworzEventSkrzynie() {
+
+  resetEventOpensIfNewDay();
+
+  if (player.eventOpens >= 5) {
+    alert("Osiągnąłeś dzienny limit 5 Eventowych skrzyń!");
+    return;
+  }
+
+  const recentDiv = document.getElementById("recent-drops");
+  recentDiv.innerHTML = `<h3>🎉 Wypadło z Eventowej skrzyni:</h3>`;
+
+  // LOSUJEMY 3 KARTY
+  for (let i = 0; i < 5; i++) {
+
+   // filtrujemy tylko karty które nie mają lvl 4
+const availableEventCards = eventCardPool.filter(card => {
+  const data = player.cards[card.name];
+  return !data || data.level < 4;
+});
+
+if (availableEventCards.length === 0) {
+  alert("Masz wszystkie eventowe karty na maksymalnym poziomie!");
+  return;
+}
+
+const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEventCards.length)];
+    const rarity = chosenEvent.rarity;
+
+    const fullCard = cardPool[rarity].find(c => c.name === chosenEvent.name);
+    if (!fullCard) continue;
+
+    if (!player.cards[fullCard.name]) {
+      player.cards[fullCard.name] = {
+        count: 0,
+        level: 1,
+        rarity: rarity,
+        image: fullCard.image
+      };
+    }
+
+    const [min, max] = rarityConfig[rarity].amount;
+    const amount = getRandomInt(min, max);
+
+    player.cards[fullCard.name].count += amount;
+
+    recentDiv.innerHTML += `
+      <div class="drop-entry">
+        <img src="${fullCard.image}" alt="${fullCard.name}" />
+        <div>${fullCard.name} (${rarity}, +${amount})</div>
+      </div>
+    `;
+  }
+
+  player.eventOpens++;
+  savePlayer();
+  pokazKarty();
+}
 
     function savePlayer() {
       localStorage.setItem("playerData", JSON.stringify(player));
@@ -956,7 +1049,6 @@ function closeWheel() {
   </script>
 </body>
 </html>
-
 
 
 
