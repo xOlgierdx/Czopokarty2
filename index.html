@@ -438,6 +438,16 @@ function otworzEventSkrzynie() {
   const recentDiv = document.getElementById("recent-drops");
   recentDiv.innerHTML = `<h3>🎉 Wypadło z Eventowej skrzyni:</h3>`;
 
+  if (Math.random() < 0.50) {
+        const gold = getRandomInt(100,200);
+        player.gold += gold;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} gemów</strong></div>`;
+      } else {
+        const gems = getRandomInt(1,5);
+        player.gems += gems;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
+      }
+
   // LOSUJEMY 3 KARTY
   for (let i = 0; i < 5; i++) {
 
@@ -1049,50 +1059,4 @@ function closeWheel() {
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
