@@ -406,6 +406,12 @@
       lastOpenDate: "",
       eventOpens: 0,
       lastEventOpenDate: ""
+
+        // NOWE LIMITY
+    goldChestOpens: 0,
+    legendaryChestOpens: 0,
+    lastChestLimitDate: ""
+};
       
     };
 
@@ -416,12 +422,25 @@
     player.wild4 = player.wild4 || 0;
     player.eventOpens = player.eventOpens || 0;
     player.lastEventOpenDate = player.lastEventOpenDate || "";
+    player.goldChestOpens = player.goldChestOpens || 0;
+    player.legendaryChestOpens = player.legendaryChestOpens || 0;
+    player.lastChestLimitDate = player.lastChestLimitDate || "";
 
     function resetEventOpensIfNewDay() {
   const today = new Date().toDateString();
   if (player.lastEventOpenDate !== today) {
     player.eventOpens = 0;
     player.lastEventOpenDate = today;
+    savePlayer();
+  }
+}
+
+    function resetChestLimitsIfNewDay() {
+  const today = new Date().toDateString();
+  if (player.lastChestLimitDate !== today) {
+    player.goldChestOpens = 0;
+    player.legendaryChestOpens = 0;
+    player.lastChestLimitDate = today;
     savePlayer();
   }
 }
@@ -601,6 +620,13 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
 
       player.gems -= 30;
 
+      resetChestLimitsIfNewDay();
+
+if (player.legendaryChestOpens >= 10) {
+  alert("Osiągnąłeś dzienny limit 10 Legendarnych Skrzyń!");
+  return;
+}
+
       const gold = getRandomInt(100, 250);
       player.gold += gold;
       recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
@@ -664,6 +690,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
     <strong>${chosenWild.text}</strong>
   </div>`;
 
+      player.legendaryChestOpens++;
       savePlayer();
       pokazKarty();
     }
@@ -674,6 +701,13 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
         return;
       }
       player.gold -= 150;
+
+      resetChestLimitsIfNewDay();
+
+if (player.goldChestOpens >= 10) {
+  alert("Osiągnąłeś dzienny limit 10 Złotych Skrzyń!");
+  return;
+}
 
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z złotej skrzyni:</h3>`;
@@ -734,6 +768,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
           </div>
         `;
       }
+      player.goldChestOpens++;
       savePlayer();
       pokazKarty();
     }
@@ -1059,6 +1094,7 @@ function closeWheel() {
   </script>
 </body>
 </html>
+
 
 
 
