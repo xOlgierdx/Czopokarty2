@@ -461,7 +461,7 @@ function otworzEventSkrzynie() {
   recentDiv.innerHTML = `<h3>🎉 Wypadło z Eventowej skrzyni:</h3>`;
 
   if (Math.random() < 0.50) {
-        const gold = getRandomInt(200,400);
+        const gold = getRandomInt(100,200);
         player.gold += gold;
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} gemów</strong></div>`;
       } else {
@@ -553,7 +553,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
       const recentDiv = document.getElementById("recent-drops");
       recentDiv.innerHTML = `<h3>🎁 Wypadło z ostatniej skrzynki:</h3>`;
 
-      const gold = getRandomInt(1,100);
+      const gold = getRandomInt(100,200);
       player.gold += gold;
       recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
 
