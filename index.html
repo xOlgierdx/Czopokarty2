@@ -461,7 +461,7 @@ function otworzEventSkrzynie() {
   recentDiv.innerHTML = `<h3>🎉 Wypadło z Eventowej skrzyni:</h3>`;
 
   if (Math.random() < 0.50) {
-        const gold = getRandomInt(100,200);
+        const gold = getRandomInt(200,400);
         player.gold += gold;
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} gemów</strong></div>`;
       } else {
@@ -1052,7 +1052,7 @@ function spinWheel() {
 
   // 10 nagród (każda 10%)
   const rewards = [
-    { id:1, text:"500 złota 💰", type:"gold", amount:2500 },
+    { id:1, text:"1500 złota 💰", type:"gold", amount:2500 },
     { id:2, text:"10 gemów 💎", type:"gems", amount:50 },
     { id:3, text:"1 odłamek 🌌", type:"odlamki", amount:5 },
     { id:4, text:"20 Wild Card", icon: "grafiki/wild1.png", type:"wild1", amount:100 },
@@ -1060,7 +1060,7 @@ function spinWheel() {
     { id:6, text:"5 Wild Card", icon: "grafiki/wild3.png",  type:"wild3", amount:25 },
     { id:7, text:"1 Wild Card", icon: "grafiki/wild4.png",  type:"wild4", amount:5 },
     { id:8, text:"NIC", type:"none", amount:0 },
-    { id:9, text:"250 złota 💰", type:"gold", amount:1250 },
+    { id:9, text:"1250 złota 💰", type:"gold", amount:1250 },
     { id:10, text:"10 gemów 💎", type:"gems", amount:50 }
   ];
 
