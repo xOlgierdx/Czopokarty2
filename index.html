@@ -77,8 +77,8 @@
       color: black;
     }
     .card-entry img {
-      width: 100px;
-      height: 120px;
+      width: 130px;
+      height: 150px;
       margin-bottom: 8px;
       border-radius: 5px;
     }
@@ -184,7 +184,7 @@
 
 #upgrade-modal-bg, #wild-modal-bg { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
     #upgrade-modal, #wild-modal { background: #1e1e2f; padding: 20px; border-radius: 10px; text-align: center; max-width: 380px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
-    #upgrade-modal img, #wild-modal img { width: 90px; border-radius: 8px; margin-bottom: 10px; }
+    #upgrade-modal img, #wild-modal img { width: 150px; border-radius: 8px; margin-bottom: 10px; }
      .wild-usage { display:flex; align-items:center; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;}
       .counter { display:flex; align-items:center; gap:8px; }
     .counter button { width:36px; height:36px; font-size:18px; padding:0; border-radius:6px; }
@@ -554,7 +554,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
 
     function otworzSkrzynke() {
       resetDailyOpensIfNewDay();
-      if (player.dailyOpens >= 5) {
+      if (player.dailyOpens >= 500) {
         alert("Osiągnąłeś dzienny limit 5 skrzyń!");
         return;
       }
@@ -1105,7 +1105,6 @@ function closeWheel() {
   </script>
 </body>
 </html>
-
 
 
 
