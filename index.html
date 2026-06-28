@@ -208,11 +208,45 @@
   100% { transform: scale(1); opacity: 0.9; }
 }
 
+    .corner-button{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    background: #3498db;
+    color: white;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: bold;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 10px rgba(0,0,0,.35);
+
+    transition: .2s;
+}
+
+.corner-button:hover{
+    transform: scale(1.05);
+    background: #2980b9;
+}
+
   </style>
 </head>
 <body>
   <h1>✨ Otwieranie Skrzynek ✨</h1>
   <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
+
+  <button
+class="corner-button"
+onclick="window.location.href='https://czopotycoon.netlify.app/';">
+🏠 TYCOON
+</button>
 
   <button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
   <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (250 złota)</button>
