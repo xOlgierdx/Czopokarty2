@@ -104,7 +104,7 @@
   100% { background-position: 0% 50%; }
 }
 
-#upgrade-modal-bg {
+#upgrade-modal-bg, #shop-modal-bg {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -116,7 +116,7 @@
 }
 
 /* Modal okno */
-#upgrade-modal {
+#upgrade-modal, #shop-modal {
   background: #1e1e2f;
   padding: 20px;
   border-radius: 10px;
@@ -124,6 +124,10 @@
   color: white;
   max-width: 350px;
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+#shop-modal {
+  min-width: 300px;
 }
 
 #upgrade-modal img {
@@ -182,14 +186,14 @@
   border: 2px solid #888;
 }
 
-#upgrade-modal-bg, #wild-modal-bg { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-    #upgrade-modal, #wild-modal { background: #1e1e2f; padding: 20px; border-radius: 10px; text-align: center; max-width: 380px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
-    #upgrade-modal img, #wild-modal img { width: 150px; border-radius: 8px; margin-bottom: 10px; }
-     .wild-usage { display:flex; align-items:center; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;}
-      .counter { display:flex; align-items:center; gap:8px; }
-    .counter button { width:36px; height:36px; font-size:18px; padding:0; border-radius:6px; }
-    input[type="number"] { width:70px; border-radius:6px; padding:6px; text-align:center; border:none; }
-    small { display:block; margin-top:6px; }
+#wild-modal-bg { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+#wild-modal { background: #1e1e2f; padding: 20px; border-radius: 10px; text-align: center; max-width: 380px; box-shadow: 0 0 15px rgba(0,0,0,0.5); color: white; }
+#wild-modal img { width: 150px; border-radius: 8px; margin-bottom: 10px; }
+.wild-usage { display:flex; align-items:center; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;}
+.counter { display:flex; align-items:center; gap:8px; }
+.counter button { width:36px; height:36px; font-size:18px; padding:0; border-radius:6px; }
+input[type="number"] { width:70px; border-radius:6px; padding:6px; text-align:center; border:none; }
+small { display:block; margin-top:6px; }
 
 .upgrade-arrow {
   position: absolute;
@@ -208,7 +212,20 @@
   100% { transform: scale(1); opacity: 0.9; }
 }
 
-    .corner-button{
+.shop-chest-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.corner-button{
     position: fixed;
     top: 20px;
     right: 20px;
@@ -240,19 +257,16 @@
 </head>
 <body>
   <h1>✨ Otwieranie Skrzynek ✨</h1>
-  <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
-
   <button
 class="corner-button"
 onclick="window.location.href='https://czopotycoon.netlify.app/';">
 🏠 TYCOON
 </button>
+  <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
 
-  <button onclick="otworzSkrzynke()">🔐 Otwórz skrzynkę</button>
-  <button onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (250 złota)</button>
-  <button onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (50 💎)</button>
+  <button onclick="otworzSkrzynke()">🔐 Skrzynia codzienna</button>
+  <button onclick="openShopModal()" style="background: linear-gradient(90deg, #ffcc00, #ff9900); color: black; font-weight: bold;">🛒 Sklep</button>
   <button onclick="spinWheel()">🎡 Koło Fortuny</button>
-  <!--<button onclick="otworzEventSkrzynie()">🎉 Wielkanocna skrzynia</button>-->
 
   <div id="recent-drops"></div>
 
@@ -267,6 +281,20 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
   </div>
 
   <div id="cards"></div>
+
+  <!-- Shop modal -->
+  <div id="shop-modal-bg">
+    <div id="shop-modal">
+      <h2>🛒 Sklep ze skrzyniami</h2>
+      <p>Wybierz skrzynię, którą chcesz zakupić:</p>
+      <div style="margin: 15px 0;">
+        <button class="shop-chest-btn" style="background: #4a4a5a; color: white;" onclick="otworzZwyklaSkrzynieZakup()">📦 Zwykła skrzynia (250 💰)</button>
+        <button class="shop-chest-btn" style="background: #d4af37; color: black;" onclick="otworzZlotaSkrzynie()">👑 Złota skrzynia (500 💰)</button>
+        <button class="shop-chest-btn" style="background: linear-gradient(90deg, #00c6ff, #0072ff); color: white;" onclick="otworzLegendarnaSkrzynia()">🏆 Legendarna skrzynia (50 💎)</button>
+      </div>
+      <button class="modal-btn btn-cancel" onclick="closeShopModal()">Zamknij</button>
+    </div>
+  </div>
 
   <!-- Upgrade modal -->
   <div id="upgrade-modal-bg">
@@ -425,11 +453,6 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
       ]
     };
 
-    // =========================
- //EVENT CARD POOL
-// Wybierz tutaj karty eventowe
-// =========================
-
 const eventCardPool = [
   { name: "Płonka Ramsey", image: "grafiki/Pbel.jpg" },
   { name: "Kawaler", image: "grafiki/Pkaw.jpg" },
@@ -442,7 +465,6 @@ const eventCardPool = [
   { name: "Stróże nocni", image: "grafiki/OKstr.jpg" },
 ];
 
-    // load or create player data, ensure wild fields exist
     let player = JSON.parse(localStorage.getItem("playerData")) || {
       gold: 0,
       gems: 0,
@@ -457,15 +479,11 @@ const eventCardPool = [
       lastOpenDate: "",
       eventOpens: 0,
       lastEventOpenDate: "",
-
-        // NOWE LIMITY
-    goldChestOpens: 0,
-    legendaryChestOpens: 0,
-    lastChestLimitDate: ""
-};
+      goldChestOpens: 0,
+      legendaryChestOpens: 0,
+      lastChestLimitDate: ""
+    };
       
-
-    // ensure older saves get fields
     player.wild1 = player.wild1 || 0;
     player.wild2 = player.wild2 || 0;
     player.wild3 = player.wild3 || 0;
@@ -476,27 +494,34 @@ const eventCardPool = [
     player.legendaryChestOpens = player.legendaryChestOpens || 0;
     player.lastChestLimitDate = player.lastChestLimitDate || "";
 
+    function openShopModal() {
+      document.getElementById("shop-modal-bg").style.display = "flex";
+    }
+
+    function closeShopModal() {
+      document.getElementById("shop-modal-bg").style.display = "none";
+    }
+
     function resetEventOpensIfNewDay() {
-  const today = new Date().toDateString();
-  if (player.lastEventOpenDate !== today) {
-    player.eventOpens = 0;
-    player.lastEventOpenDate = today;
-    savePlayer();
-  }
-}
+      const today = new Date().toDateString();
+      if (player.lastEventOpenDate !== today) {
+        player.eventOpens = 0;
+        player.lastEventOpenDate = today;
+        savePlayer();
+      }
+    }
 
     function resetChestLimitsIfNewDay() {
-  const today = new Date().toDateString();
-  if (player.lastChestLimitDate !== today) {
-    player.goldChestOpens = 0;
-    player.legendaryChestOpens = 0;
-    player.lastChestLimitDate = today;
-    savePlayer();
-  }
-}
+      const today = new Date().toDateString();
+      if (player.lastChestLimitDate !== today) {
+        player.goldChestOpens = 0;
+        player.legendaryChestOpens = 0;
+        player.lastChestLimitDate = today;
+        savePlayer();
+      }
+    }
 
 function otworzEventSkrzynie() {
-
   resetEventOpensIfNewDay();
 
   if (player.eventOpens >= 5) {
@@ -517,21 +542,18 @@ function otworzEventSkrzynie() {
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
       }
 
-  // LOSUJEMY 3 KARTY
   for (let i = 0; i < 5; i++) {
+    const availableEventCards = eventCardPool.filter(card => {
+      const data = player.cards[card.name];
+      return !data || data.level < 4;
+    });
 
-   // filtrujemy tylko karty które nie mają lvl 4
-const availableEventCards = eventCardPool.filter(card => {
-  const data = player.cards[card.name];
-  return !data || data.level < 4;
-});
+    if (availableEventCards.length === 0) {
+      alert("Masz wszystkie eventowe karty na maksymalnym poziomie!");
+      return;
+    }
 
-if (availableEventCards.length === 0) {
-  alert("Masz wszystkie eventowe karty na maksymalnym poziomie!");
-  return;
-}
-
-const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEventCards.length)];
+    const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEventCards.length)];
     const rarity = chosenEvent.rarity;
 
     const fullCard = cardPool[rarity].find(c => c.name === chosenEvent.name);
@@ -591,6 +613,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
       }
     }
 
+    // SKRZYNIA CODZIENNA (Bez zmian)
     function otworzSkrzynke() {
       resetDailyOpensIfNewDay();
       if (player.dailyOpens >= 5) {
@@ -598,7 +621,7 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
         return;
       }
       const recentDiv = document.getElementById("recent-drops");
-      recentDiv.innerHTML = `<h3>🎁 Wypadło z ostatniej skrzynki:</h3>`;
+      recentDiv.innerHTML = `<h3>🎁 Wypadło ze skrzyni codziennej:</h3>`;
 
       const gold = getRandomInt(1,100);
       player.gold += gold;
@@ -659,111 +682,23 @@ const chosenEvent = availableEventCards[Math.floor(Math.random() * availableEven
       pokazKarty();
     }
 
-    // LEGENDARNA SKRZYNIA z dropem WILD CARDS (wybiera tylko JEDEN rodzaj na otwarcie)
-    function otworzLegendarnaSkrzynia() {
-      if (player.gems < 50) {
-        alert("Za mało gemów!");
-        return;
-      }
-      const recentDiv = document.getElementById("recent-drops");
-      recentDiv.innerHTML = `<h3>🎁 Wypadło z legendarnej skrzyni:</h3>`;
-
-      player.gems -= 50;
-
-      resetChestLimitsIfNewDay();
-
-if (player.legendaryChestOpens >= 10) {
-  alert("Osiągnąłeś dzienny limit 10 Legendarnych Skrzyń!");
-  return;
-}
-
-      const gold = getRandomInt(100, 250);
-      player.gold += gold;
-      recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
-
-      let availableLegends = cardPool["legendarna"].filter(card => {
-        let data = player.cards[card.name];
-        return !data || data.level < 4;
-      });
-      if (availableLegends.length === 0) {
-        alert("Masz już wszystkie legendarne karty na max poziomie!");
-        savePlayer();
-        pokazKarty();
-        return;
-      }
-
-      const chosen = availableLegends[getRandomInt(0, availableLegends.length - 1)];
-      if (!player.cards[chosen.name]) {
-        player.cards[chosen.name] = { count: 0, level: 1, rarity: "legendarna", image: chosen.image };
-      }
-      player.cards[chosen.name].count += 1;
-
-      recentDiv.innerHTML += `
-        <div class="drop-entry">
-          <img src="${chosen.image}" alt="${chosen.name}" />
-          <div>${chosen.name} (legendarna, +1)</div>
-        </div>
-      `;
-
-      // --- WILD CARDS DROP (jeden rodzaj) ---
-      // Wagi zgodne z Twoim opisem: WC1:50, WC2:50, WC3:25, WC4:25
-      const wildOptions = [
-        { type: 1, weight: 50, qty: 20, text: " Wild Card  (+20)" },
-        { type: 2, weight: 50, qty: 10, text: " Wild Card  (+10)" },
-        { type: 3, weight: 25, qty: 5,  text: " Wild Card  (+5)" },
-        { type: 4, weight: 25, qty: 1,  text: " Wild Card  (+1)" }
-      ];
-      const totalWeight = wildOptions.reduce((s,o)=>s+o.weight,0);
-      let r = Math.random() * totalWeight;
-      let chosenWild = null;
-      for (const opt of wildOptions) {
-        r -= opt.weight;
-        if (r <= 0) { chosenWild = opt; break; }
-      }
-      if (!chosenWild) chosenWild = wildOptions[0];
-
-      if (chosenWild.type === 1) player.wild1 += chosenWild.qty;
-      if (chosenWild.type === 2) player.wild2 += chosenWild.qty;
-      if (chosenWild.type === 3) player.wild3 += chosenWild.qty;
-      if (chosenWild.type === 4) player.wild4 += chosenWild.qty;
-
-      const wildIcons = {
-  1: `<img src="grafiki/wild1.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
-  2: `<img src="grafiki/wild2.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
-  3: `<img src="grafiki/wild3.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
-  4: `<img src="grafiki/wild4.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`
-};
-
-      recentDiv.innerHTML += `
-  <div class="drop-entry">
-    ${wildIcons[chosenWild.type]} 
-    <strong>${chosenWild.text}</strong>
-  </div>`;
-
-      player.legendaryChestOpens++;
-      savePlayer();
-      pokazKarty();
-    }
-
-    function otworzZlotaSkrzynie() {
+    // NOWA ZWYKŁA SKRZYNIA ZAKUPOWA (taka sama jak codzienna za 250 złota)
+    function otworzZwyklaSkrzynieZakup() {
       if (player.gold < 250) {
         alert("Nie masz wystarczająco złota!");
         return;
       }
       player.gold -= 250;
 
-      resetChestLimitsIfNewDay();
-
-if (player.goldChestOpens >= 10) {
-  alert("Osiągnąłeś dzienny limit 10 Złotych Skrzyń!");
-  return;
-}
-
       const recentDiv = document.getElementById("recent-drops");
-      recentDiv.innerHTML = `<h3>🎁 Wypadło z złotej skrzyni:</h3>`;
+      recentDiv.innerHTML = `<h3>🎁 Wypadło ze zwykłej skrzyni (Sklep):</h3>`;
 
-      if (Math.random() < 0.92) {
-        const gems = getRandomInt(5,10);
+      const gold = getRandomInt(1,100);
+      player.gold += gold;
+      recentDiv.innerHTML += `<div class="drop-entry"><strong>💰 ${gold} złota</strong></div>`;
+
+      if (Math.random() < 0.96) {
+        const gems = getRandomInt(1,5);
         player.gems += gems;
         recentDiv.innerHTML += `<div class="drop-entry"><strong>💎 ${gems} gemów</strong></div>`;
       } else {
@@ -771,6 +706,103 @@ if (player.goldChestOpens >= 10) {
         recentDiv.innerHTML += `<div class="drop-entry"><strong>🌌 1 odłamek</strong></div>`;
       }
 
+      const championChance = 0.02;
+      if (Math.random() < championChance) {
+        const availableChampions = cardPool.czempion.filter(c => !player.cards[c.name]);
+        if (availableChampions.length > 0) {
+          const chosen = availableChampions[getRandomInt(0, availableChampions.length - 1)];
+          player.cards[chosen.name] = { count: 1, level: 1, rarity: "czempion", image: chosen.image };
+          recentDiv.innerHTML += `
+            <div class="drop-entry">
+              <img src="${chosen.image}" alt="${chosen.name}" />
+              <div>🌌 ${chosen.name} (CZEMPION, +1)</div>
+            </div>
+          `;
+        }
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const rarity = losujRzadkosc();
+        let availableCards = cardPool[rarity].filter(card => {
+          let data = player.cards[card.name];
+          return !data || data.level < 4;
+        });
+        if (availableCards.length === 0) continue;
+
+        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
+        const [min, max] = rarityConfig[rarity].amount;
+        const amount = getRandomInt(min, max);
+
+        if (!player.cards[chosen.name]) {
+          player.cards[chosen.name] = { count: 0, level: 1, rarity: rarity, image: chosen.image };
+        }
+
+        player.cards[chosen.name].count += amount;
+
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosen.image}" alt="${chosen.name}" />
+            <div>${chosen.name} (${rarity}, +${amount})</div>
+          </div>
+        `;
+      }
+
+      savePlayer();
+      pokazKarty();
+      closeShopModal();
+    }
+
+    // ZŁOTA SKRZYNIA (500 złota, 2 pospolite, 2 rzadkie, brak gemów, 5% szans na odłamek)
+    function otworzZlotaSkrzynie() {
+      if (player.gold < 500) {
+        alert("Nie masz wystarczająco złota!");
+        return;
+      }
+
+      resetChestLimitsIfNewDay();
+
+      if (player.goldChestOpens >= 10) {
+        alert("Osiągnąłeś dzienny limit 10 Złotych Skrzyń!");
+        return;
+      }
+
+      player.gold -= 500;
+
+      const recentDiv = document.getElementById("recent-drops");
+      recentDiv.innerHTML = `<h3>🎁 Wypadło ze złotej skrzyni:</h3>`;
+
+      // 5% szans na danie jednego odłamka
+      if (Math.random() < 0.05) {
+        player.odlamki += 1;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>🌌 1 odłamek</strong></div>`;
+      }
+
+      // Drop 2 kart pospolitych
+      for (let i = 0; i < 2; i++) {
+        let availableCards = cardPool["pospolita"].filter(card => {
+          let data = player.cards[card.name];
+          return !data || data.level < 4;
+        });
+        if (availableCards.length === 0) continue;
+
+        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
+        const [min, max] = rarityConfig["pospolita"].amount;
+        const amount = getRandomInt(min, max);
+
+        if (!player.cards[chosen.name]) {
+          player.cards[chosen.name] = { count: 0, level: 1, rarity: "pospolita", image: chosen.image };
+        }
+        player.cards[chosen.name].count += amount;
+
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosen.image}" alt="${chosen.name}" />
+            <div>${chosen.name} (pospolita, +${amount})</div>
+          </div>
+        `;
+      }
+
+      // Drop 2 kart rzadkich
       for (let i = 0; i < 2; i++) {
         let availableCards = cardPool["rzadka"].filter(card => {
           let data = player.cards[card.name];
@@ -795,32 +827,107 @@ if (player.goldChestOpens >= 10) {
         `;
       }
 
-      for (let i = 0; i < 2; i++) {
-        let availableCards = cardPool["epicka"].filter(card => {
-          let data = player.cards[card.name];
-          return !data || data.level < 4;
-        });
-        if (availableCards.length === 0) continue;
-
-        const chosen = availableCards[getRandomInt(0, availableCards.length - 1)];
-        const [min, max] = rarityConfig["epicka"].amount;
-        const amount = getRandomInt(min, max);
-
-        if (!player.cards[chosen.name]) {
-          player.cards[chosen.name] = { count: 0, level: 1, rarity: "epicka", image: chosen.image };
-        }
-        player.cards[chosen.name].count += amount;
-
-        recentDiv.innerHTML += `
-          <div class="drop-entry">
-            <img src="${chosen.image}" alt="${chosen.name}" />
-            <div>${chosen.name} (epicka, +${amount})</div>
-          </div>
-        `;
-      }
       player.goldChestOpens++;
       savePlayer();
       pokazKarty();
+      closeShopModal();
+    }
+
+    // LEGENDARNA SKRZYNIA (50 gemów, 1 epicka, 1 legendarna, 5% odłamek, 1 z 4 wildcardów równomiernie)
+    function otworzLegendarnaSkrzynia() {
+      if (player.gems < 50) {
+        alert("Za mało gemów!");
+        return;
+      }
+
+      resetChestLimitsIfNewDay();
+
+      if (player.legendaryChestOpens >= 10) {
+        alert("Osiągnąłeś dzienny limit 10 Legendarnych Skrzyń!");
+        return;
+      }
+
+      player.gems -= 50;
+
+      const recentDiv = document.getElementById("recent-drops");
+      recentDiv.innerHTML = `<h3>🎁 Wypadło z legendarnej skrzyni:</h3>`;
+
+      // 5% szans na odłamek
+      if (Math.random() < 0.05) {
+        player.odlamki += 1;
+        recentDiv.innerHTML += `<div class="drop-entry"><strong>🌌 1 odłamek</strong></div>`;
+      }
+
+      // Drop 1 karty epickiej
+      let availableEpics = cardPool["epicka"].filter(card => {
+        let data = player.cards[card.name];
+        return !data || data.level < 4;
+      });
+      if (availableEpics.length > 0) {
+        const chosenEpic = availableEpics[getRandomInt(0, availableEpics.length - 1)];
+        if (!player.cards[chosenEpic.name]) {
+          player.cards[chosenEpic.name] = { count: 0, level: 1, rarity: "epicka", image: chosenEpic.image };
+        }
+        player.cards[chosenEpic.name].count += 1;
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosenEpic.image}" alt="${chosenEpic.name}" />
+            <div>${chosenEpic.name} (epicka, +1)</div>
+          </div>
+        `;
+      }
+
+      // Drop 1 karty legendarnej
+      let availableLegends = cardPool["legendarna"].filter(card => {
+        let data = player.cards[card.name];
+        return !data || data.level < 4;
+      });
+      if (availableLegends.length > 0) {
+        const chosenLegend = availableLegends[getRandomInt(0, availableLegends.length - 1)];
+        if (!player.cards[chosenLegend.name]) {
+          player.cards[chosenLegend.name] = { count: 0, level: 1, rarity: "legendarna", image: chosenLegend.image };
+        }
+        player.cards[chosenLegend.name].count += 1;
+        recentDiv.innerHTML += `
+          <div class="drop-entry">
+            <img src="${chosenLegend.image}" alt="${chosenLegend.name}" />
+            <div>${chosenLegend.name} (legendarna, +1)</div>
+          </div>
+        `;
+      }
+
+      // Losowanie jednej z 4 możliwych Wild Cards (25% szans na każdą opcję)
+      const wildOptions = [
+        { type: 1, qty: 20, text: " Wild Card Pospolity (+20)" },
+        { type: 2, qty: 10, text: " Wild Card Rzadki (+10)" },
+        { type: 3, qty: 5,  text: " Wild Card Epicki (+5)" },
+        { type: 4, qty: 1,  text: " Wild Card Legendarny (+1)" }
+      ];
+      
+      const chosenWild = wildOptions[Math.floor(Math.random() * wildOptions.length)];
+
+      if (chosenWild.type === 1) player.wild1 += chosenWild.qty;
+      if (chosenWild.type === 2) player.wild2 += chosenWild.qty;
+      if (chosenWild.type === 3) player.wild3 += chosenWild.qty;
+      if (chosenWild.type === 4) player.wild4 += chosenWild.qty;
+
+      const wildIcons = {
+        1: `<img src="grafiki/wild1.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+        2: `<img src="grafiki/wild2.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+        3: `<img src="grafiki/wild3.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`,
+        4: `<img src="grafiki/wild4.png" style="width:30px;height:30px;vertical-align:middle;margin-right:5px;">`
+      };
+
+      recentDiv.innerHTML += `
+        <div class="drop-entry">
+          ${wildIcons[chosenWild.type]} 
+          <strong>${chosenWild.text}</strong>
+        </div>`;
+
+      player.legendaryChestOpens++;
+      savePlayer();
+      pokazKarty();
+      closeShopModal();
     }
 
     function pokazKarty() {
@@ -847,17 +954,14 @@ if (player.goldChestOpens >= 10) {
       rarityOrder.forEach(rarity => {
         const totalCards = cardPool[rarity].length;
 
-        // Liczymy ile kart gracz posiada (count > 0) w danej rzadkości
         const ownedCardsCount = cardPool[rarity].filter(card => {
           return player.cards[card.name] && player.cards[card.name].count > 0;
         }).length;
 
-        // Nagłówek z licznikiem
         container.innerHTML += `<h2 style="width:100%;text-align:left;margin-top:20px;">
           ${rarityNames[rarity]} ${ownedCardsCount}/${totalCards}
         </h2>`;
 
-        // Filtrujemy i pokazujemy tylko posiadane karty danej rzadkości
         const rowCards = Object.entries(player.cards)
           .filter(([name, c]) => c.rarity === rarity && c.count > 0);
 
@@ -869,47 +973,41 @@ if (player.goldChestOpens >= 10) {
           rowDiv.style.marginBottom = "20px";
 
           rowCards.forEach(([name, c]) => {
-  let cardClass = "card-entry";
-  if (c.level === 2) cardClass += " level-two";
-  if (c.level >= 3) cardClass += " max-level";
-  if (c.level === 4) cardClass += " diamond-level";
+            let cardClass = "card-entry";
+            if (c.level === 2) cardClass += " level-two";
+            if (c.level >= 3) cardClass += " max-level";
+            if (c.level === 4) cardClass += " diamond-level";
 
-  // pobieramy koszt kart do ulepszenia (jeśli istnieje)
-  const costData = rarityConfig[c.rarity] && rarityConfig[c.rarity].upgradeCost
-                     ? rarityConfig[c.rarity].upgradeCost[c.level]
-                     : null;
-  // jeśli nie ma koszt.cards (np. czempion ma odłamki) ustawiamy needed = Infinity -> nie wyświetlamy strzałki
-  const needed = costData && costData.cards ? costData.cards : Infinity;
+            const costData = rarityConfig[c.rarity] && rarityConfig[c.rarity].upgradeCost
+                               ? rarityConfig[c.rarity].upgradeCost[c.level]
+                               : null;
+            const needed = costData && costData.cards ? costData.cards : Infinity;
 
-  let canUpgrade = false;
+            let canUpgrade = false;
+            if (isFinite(needed)) {
+              if (c.count >= needed) {
+                canUpgrade = true;
+              } 
+            }
 
-  // jeśli needed jest finite -> można sprawdzić zwykły przypadek
-  if (isFinite(needed)) {
-    // 1) masz wystarczającą liczbę kart
-    if (c.count >= needed) {
-      canUpgrade = true;
-    } 
-  }
+            const arrowHTML = canUpgrade ? `<div class="upgrade-arrow"></div>` : "";
 
-  const arrowHTML = canUpgrade ? `<div class="upgrade-arrow"></div>` : "";
-
-  rowDiv.innerHTML += `
-    <div class="${cardClass}" style="position:relative;" onclick="pokazOknoUlepszenia('${name}')">
-      ${arrowHTML}
-      <img src="${c.image}" alt="${name}" />
-      <div>${name}</div>
-      <small>Lvl ${c.level}${c.level === 3 ? " (MAX)" : c.level === 4 ? " (DIAMENT)" : ""} • ${c.count} szt.</small>
-      <small>${c.rarity}</small>
-    </div>
-  `;
-});
+            rowDiv.innerHTML += `
+              <div class="${cardClass}" style="position:relative;" onclick="pokazOknoUlepszenia('${name}')">
+                ${arrowHTML}
+                <img src="${c.image}" alt="${name}" />
+                <div>${name}</div>
+                <small>Lvl ${c.level}${c.level === 3 ? " (MAX)" : c.level === 4 ? " (DIAMENT)" : ""} • ${c.count} szt.</small>
+                <small>${c.rarity}</small>
+              </div>
+            `;
+          });
 
           container.appendChild(rowDiv);
         }
       });
     }
 
-    // upgrade modal logic
     let upgradeTarget = null;
 
     function pokazOknoUlepszenia(nazwa) {
@@ -939,9 +1037,7 @@ if (player.goldChestOpens >= 10) {
       document.getElementById("upgrade-img").src = karta.image;
       document.getElementById("upgrade-title").innerText = nazwa;
 
-      // Dodaj przycisk do otwarcia modala Wild Cards (jeśli nie czempion)
       const containerButtons = document.getElementById("upgrade-modal-buttons");
-      // remove existing wild-use button if present
       const existing = document.getElementById("use-wild-btn");
       if (existing) existing.remove();
 
@@ -953,7 +1049,6 @@ if (player.goldChestOpens >= 10) {
         wildBtn.style.color = "white";
         wildBtn.innerText = "➕ Użyj Wild Cards";
         wildBtn.onclick = function() {
-          // map rarity to type
           const map = { pospolita:1, rzadka:2, epicka:3, legendarna:4 };
           openWildModal(map[karta.rarity], nazwa);
         };
@@ -999,7 +1094,6 @@ if (player.goldChestOpens >= 10) {
       closeUpgradeModal();
     }
 
-    // ---- WILD modal logic ----
     let wildModalState = { type: 1, targetName: null, max: 0 };
 
     function openWildModal(type, targetName) {
@@ -1016,7 +1110,7 @@ if (player.goldChestOpens >= 10) {
       document.getElementById("wild-will-add").innerText = Math.min(owned,1);
       document.getElementById("wild-modal-sub").innerText = `Karta: ${targetName}`;
       document.getElementById("wild-modal-bg").style.display = "flex";
-      // attach input event
+      
       document.getElementById("wild-count-input").oninput = function(){
         let v = parseInt(this.value) || 0;
         if (v < 1) v = 1;
@@ -1055,21 +1149,18 @@ if (player.goldChestOpens >= 10) {
       const owned = (type===1?player.wild1:type===2?player.wild2:type===3?player.wild3:player.wild4);
       if (count > owned) { alert("Nie masz tylu Wild Cards."); return; }
 
-      // Subtract wilds and add cards (1 Wild = +1 karta)
       if (type===1) player.wild1 -= count;
       else if (type===2) player.wild2 -= count;
       else if (type===3) player.wild3 -= count;
       else if (type===4) player.wild4 -= count;
 
       if (!player.cards[name]) {
-        // find rarity of the card from pools (fallback)
         let found = null;
         for (const r in cardPool) {
           found = cardPool[r].find(c => c.name === name);
           if (found) { player.cards[name] = { count: 0, level:1, rarity: r, image: found.image }; break; }
         }
         if (!found) {
-          // default safety
           player.cards[name] = { count: 0, level:1, rarity: "pospolita", image: "" };
         }
       }
@@ -1077,14 +1168,9 @@ if (player.goldChestOpens >= 10) {
       player.cards[name].count += count;
       savePlayer();
       closeWildModal();
-      // reopen upgrade modal to update info
       pokazOknoUlepszenia(name);
       pokazKarty();
     }
-
-    // =========================
-// 🎡 KOŁO FORTUNY — 1x dziennie
-// =========================
 
 function spinWheel() {
   const today = new Date().toDateString();
@@ -1094,10 +1180,8 @@ function spinWheel() {
     return;
   }
 
-  // Ustawiamy datę
   player.lastWheelSpin = today;
 
-  // 10 nagród (każda 10%)
   const rewards = [
     { id:1, text:"500 złota 💰", type:"gold", amount:500 },
     { id:2, text:"10 gemów 💎", type:"gems", amount:10 },
@@ -1111,10 +1195,8 @@ function spinWheel() {
     { id:10, text:"10 gemów 💎", type:"gems", amount:10 }
   ]; 
   
-  // losujemy 1 z 10
   const reward = rewards[Math.floor(Math.random() * 10)];
 
-  // dodajemy nagrodę
   if (reward.type === "gold") player.gold += reward.amount;
   if (reward.type === "gems") player.gems += reward.amount;
   if (reward.type === "odlamki") player.odlamki += reward.amount;
@@ -1126,7 +1208,6 @@ function spinWheel() {
   savePlayer();
   pokazKarty();
 
-  // pokaż modal z wynikiem
   document.getElementById("wheel-result-text").innerHTML = `
   Wylosowałeś:<br>
   ${reward.icon ? `<img src="${reward.icon}" style="width:32px; vertical-align:middle;">` : ""}
@@ -1139,17 +1220,7 @@ function closeWheel() {
   document.getElementById("wheel-modal-bg").style.display = "none";
 }
 
-    // init
     pokazKarty();
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
