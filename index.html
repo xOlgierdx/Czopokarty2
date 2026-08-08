@@ -253,6 +253,26 @@ small { display:block; margin-top:6px; }
     background: #2980b9;
 }
 
+.rarity-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 5px;
+}
+
+.hide-completed-label {
+  font-size: 14px;
+  font-weight: normal;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
   </style>
 </head>
 <body>
@@ -481,7 +501,8 @@ const eventCardPool = [
       lastEventOpenDate: "",
       goldChestOpens: 0,
       legendaryChestOpens: 0,
-      lastChestLimitDate: ""
+      lastChestLimitDate: "",
+      hideCompleted: {}
     };
       
     player.wild1 = player.wild1 || 0;
@@ -493,6 +514,13 @@ const eventCardPool = [
     player.goldChestOpens = player.goldChestOpens || 0;
     player.legendaryChestOpens = player.legendaryChestOpens || 0;
     player.lastChestLimitDate = player.lastChestLimitDate || "";
+    player.hideCompleted = player.hideCompleted || {};
+
+    function toggleHideCompleted(rarity) {
+      player.hideCompleted[rarity] = !player.hideCompleted[rarity];
+      savePlayer();
+      pokazKarty();
+    }
 
     function openShopModal() {
       document.getElementById("shop-modal-bg").style.display = "flex";
@@ -958,19 +986,31 @@ function otworzEventSkrzynie() {
           return player.cards[card.name] && player.cards[card.name].count > 0;
         }).length;
 
-        container.innerHTML += `<h2 style="width:100%;text-align:left;margin-top:20px;">
-          ${rarityNames[rarity]} ${ownedCardsCount}/${totalCards}
-        </h2>`;
+        const isChecked = !!player.hideCompleted[rarity];
 
-        const rowCards = Object.entries(player.cards)
+        container.innerHTML += `
+          <div class="rarity-header">
+            <h2 style="margin: 0;">${rarityNames[rarity]} ${ownedCardsCount}/${totalCards}</h2>
+            <label class="hide-completed-label">
+              <input type="checkbox" ${isChecked ? "checked" : ""} onchange="toggleHideCompleted('${rarity}')">
+              Ukryj ukończone (4lvl)
+            </label>
+          </div>
+        `;
+
+        let rowCards = Object.entries(player.cards)
           .filter(([name, c]) => c.rarity === rarity && c.count > 0);
+
+        if (isChecked) {
+          rowCards = rowCards.filter(([name, c]) => c.level < 4);
+        }
 
         if (rowCards.length > 0) {
           const rowDiv = document.createElement("div");
           rowDiv.style.display = "flex";
           rowDiv.style.flexWrap = "wrap";
           rowDiv.style.gap = "15px";
-          rowDiv.style.marginBottom = "20px";
+          rowDiv.style.margin = "15px 0 20px 0";
 
           rowCards.forEach(([name, c]) => {
             let cardClass = "card-entry";
