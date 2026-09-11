@@ -225,11 +225,16 @@ small { display:block; margin-top:6px; }
   text-align: left;
 }
 
-.corner-button{
+.corner-button-container {
     position: fixed;
     top: 20px;
     right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 999;
+}
 
+.corner-button{
     background: #3498db;
     color: white;
 
@@ -251,6 +256,14 @@ small { display:block; margin-top:6px; }
 .corner-button:hover{
     transform: scale(1.05);
     background: #2980b9;
+}
+
+.corner-button.gwent {
+    background: #e67e22;
+}
+
+.corner-button.gwent:hover {
+    background: #d35400;
 }
 
 .rarity-header {
@@ -276,12 +289,20 @@ small { display:block; margin-top:6px; }
   </style>
 </head>
 <body>
+  <div class="corner-button-container">
+    <button
+      class="corner-button"
+      onclick="window.location.href='https://czopotycoon.netlify.app/';">
+      🏠 TYCOON
+    </button>
+    <button
+      class="corner-button gwent"
+      onclick="window.location.href='https://czopogwint.netlify.app/';">
+      ⚔️ GWINT
+    </button>
+  </div>
+
   <h1>✨ Otwieranie Skrzynek ✨</h1>
-  <button
-class="corner-button"
-onclick="window.location.href='https://czopotycoon.netlify.app/';">
-🏠 TYCOON
-</button>
   <p>UWAGA nie ulepszać na 3lvl jeśli masz idealnie np. 10/10 bo znikną i nigdy już się nie pojawią, ZAWSZE musisz mieć chociaż 1 więcej</p>
 
   <button onclick="otworzSkrzynke()">🔐 Skrzynia codzienna</button>
@@ -404,9 +425,7 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
         { name: "7 Burgerów", image: "grafiki/D7.jpg" },
         { name: "3Z-0P", image: "grafiki/3Z-0P.jpg" },
         { name: "Pride Month", image: "grafiki/MDpri.jpg" },
-        { name: "Najlepszy NPC", image: "grafiki/NPC.jpg" },
-        { name: "Pragmata", image: "grafiki/DPpra.jpg" },
-        { name: "Wendigo", image: "grafiki/Pwen.jpg" }
+        { name: "Najlepszy NPC", image: "grafiki/NPC.jpg" }
       ],
       rzadka: [
         { name: "Śmiertkeus", image: "grafiki/Datr.jpg" },
@@ -430,8 +449,7 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
         { name: "Yakuza", image: "grafiki/Kyak.jpg" },
         { name: "Po pedofilio", image: "grafiki/Mpo.jpg" },
         { name: "Marcin Parker", image: "grafiki/Mpet.jpg" },
-        { name: "Zagłada Olimpu", image: "grafiki/OKzag.jpg" },
-        { name: "X-MEN", image: "grafiki/OKMxmen.jpg" }
+        { name: "Zagłada Olimpu", image: "grafiki/OKzag.jpg" }
       ],
       epicka: [
         { name: "Szkarłatna wiedźma", image: "grafiki/Osca.jpg" },
@@ -448,11 +466,7 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
         { name: "Matkobijca", image: "grafiki/Dmat.jpg" },
         { name: "Młodzi vs starzy", image: "grafiki/OKDMmor.jpg" },
         { name: "Rewolwerowiec", image: "grafiki/Ojoh.jpg" },
-        { name: "Rozgotowani", image: "grafiki/OKMroz.jpg" },
-        { name: "Miłośnik materiałów wybuchowych", image: "grafiki/Kfus.jpg" },
-        { name: "Mysia sprawa", image: "grafiki/Kmysz.jpg" },
-        { name: "Pancerna forteca", image: "grafiki/Mgib.jpg" },
-        { name: "Technologiczny Tropiciel", image: "grafiki/Oblo.jpg" }
+        { name: "Rozgotowani", image: "grafiki/OKMroz.jpg" }
       ],
       legendarna: [
         { name: "Lady Dziadek", image: "grafiki/Dlad.jpg" },
@@ -467,10 +481,7 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
         { name: "Paczkarz", image: "grafiki/Dsam.jpg" },
         { name: "Stróże nocni", image: "grafiki/OKstr.jpg" },
         { name: "Pogromczynie Marcina", image: "grafiki/OKspl.jpg" },
-        { name: "Tępiciele czarnych", image: "grafiki/OKre5.jpg" },
-        { name: "Mr. czop", image: "grafiki/Mmrx.jpg" },
-        { name: "Czempioni Apex", image: "grafiki/OKMapex.jpg" },
-        { name: "Walka wieczoru", image: "grafiki/OMufc.jpg" }
+        { name: "Tępiciele czarnych", image: "grafiki/OKre5.jpg" }
       ],
       czempion: [
         { name: "God of Hunger", image: "grafiki/Mkra.jpg" },
@@ -479,8 +490,7 @@ onclick="window.location.href='https://czopotycoon.netlify.app/';">
         { name: "Kapitan Gówieno", image: "grafiki/Mgow.jpg" },
         { name: "Gang Diddiego", image: "grafiki/Gang.jpg" },
         { name: "Tłusty wypad", image: "grafiki/OKMtlu.jpg" },
-        { name: "Piekielna kuchnia", image: "grafiki/OKMkuc.jpg" },
-        { name: "Szkoła wilka", image: "grafiki/OKMwie.jpg" }
+        { name: "Piekielna kuchnia", image: "grafiki/OKMkuc.jpg" }
       ]
     };
 
